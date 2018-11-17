@@ -1,0 +1,5 @@
+api_env2/
+*.pyc
+__pycache__/
+.idea/
+.vscode/
