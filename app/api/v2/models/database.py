@@ -1,7 +1,7 @@
 import psycopg2
 import os
 
-class UsersDatabase:
+class Database:
     def __init__(self):
     	self.db_name = os.getenv('DB_NAME')
     	self.db_host = os.getenv('DB_HOST')
@@ -54,8 +54,3 @@ class UsersDatabase:
             self.curr.close()
         except Exception as e:
             return e
-
-
-if __name__ == '__main__':
-    UsersDatabase().destroy_table()
-    UsersDatabase().create_table()
