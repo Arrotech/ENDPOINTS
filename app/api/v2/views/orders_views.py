@@ -1,34 +1,31 @@
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort, Blueprint
-from app.api.v2.models.order_models import UsersModel
-from flask_jwt_extended import jwt_required, get_jwt_identity
-
+from app.api.v2.models.order_models import UsersModel, OrdersModel
+from app.credentials import raise_error
 
 
 class DataParcel(Resource):
+
     def __init__(self):
         pass 
-
-    @jwt_required
+    
+    #@jwt_required
     def post(self):
         if not request.json or not 'sender_name' in request.json:
-            abort(400)
+            raise_error(400,"Invalid")
         if not request.json or not 'recipient' in request.json:
-            abort(400)
+            raise_error(400,"Invalid Key")
         if not request.json or not 'destination' in request.json:
-            abort(400)
+            raise_error(400,"Invalid Key")
         if not request.json or not 'pickup' in request.json:
-            abort(400)
+            raise_error(400,"Invalid Key")
         if not request.json or not 'weight' in request.json:
-            abort(400)
+            raise_error(400,"Invalid Key")
         if not request.json or not 'username' in request.json:
-            abort(400)
-
-        if (not request.json or "sender_name" not in request.json):
-            return make_response(jsonify({'Error': "Request Not found"}), 404)
+            raise_error(400,"Invalid Key")
 
         if type(request.json['username'])not in [str]:
-            return make_response(jsonify({"Warning!": "Username should be a string"}))
+            raise_error(400,"Username should be a string")
 
 
         details = request.get_json()
@@ -41,31 +38,28 @@ class DataParcel(Resource):
         username = details['username']
 
         if details["sender_name"]=="":
-            abort(400)
+            raise_error(400,"Invalid Key")
         if details["recipient"]=="":
-            abort(400)
+            raise_error(400,"Invalid Key")
         if details["destination"]=="":
-            abort(400)
+            raise_error(400,"Invalid Key")
         if details["pickup"]=="":
-            abort(400)
+            raise_error(400,"Invalid Key")
         if details["weight"]=="":
-            abort(400)
+            raise_error(400,"Invalid Key")
         if details["username"]=="":
-            abort(400)
+            raise_error(400,="Invalid Key")
         
-        res = UsersModel().save(sender_name,recipient,destination,pickup,weight,username)
+        res = OrdersModel().save(sender_name,recipient,destination,pickup,weight,username)
         return make_response(jsonify({
             "Parcel Order": res
             }),201)
 
 
-    @jwt_required
+    #@jwt_required
     def get_parcels(self):
-        orders = UsersModel().get_all_parcels()
-        if not orders:
-            return make_response(jsonify({
-                "Message": "Unavailable orders"
-            }), 200)
+        orders = OrdersModel().get_all_parcels()
+        #Return an empty list
         return make_response(jsonify({
             "Parcel Order": orders
             }),200)
@@ -74,10 +68,7 @@ class SingleParcel(Resource):
     
     def get_parcel(parcel_id):
         order = ParcelModel().get_parcel_by_id(parcel_id)
-        if not order:
-            return make_response(jsonify({
-                "Message": "Unavailable order"
-            }), 200)
+        #Return empty list
         return make_response(jsonify({
             "Parcel Order": order
             }),200)

@@ -1,9 +1,7 @@
-from app.db_config import connect
-from app.manage import UsersDatabase
-#from app import bcrypt
+from database import Database
 
 
-class UsersModel(UsersDatabase):         
+class UsersModel(Database):         
 
 	def __init__(self,username,email,password,user_role):
 		super().__init__()
@@ -12,8 +10,6 @@ class UsersModel(UsersDatabase):
 		self.password = password
 		self.user_role = admin
 		
-
-
 	def save(self, sender_name, recipient, destination, pickup, weight, username):
 
 		self.cursor.execute(
@@ -57,8 +53,8 @@ class UsersModel(UsersDatabase):
 
 		return self
 
-class OrdersModel(UsersDatabase):
-	def __init__(self,sender_name,recipient,destination,pickup,weight,username):
+class OrdersModel(Database):
+	def __init__(self,sender_name=None,recipient=None,destination=None,pickup=None,weight=None,username=None):
 		super().__init__()
 		self.sender_name = sender_name
 		self.recipient = recipient
