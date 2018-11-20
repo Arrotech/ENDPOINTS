@@ -1,16 +1,13 @@
 aniso8601==4.0.1
 atomicwrites==1.2.1
 attrs==18.2.0
-bcrypt==3.1.4
 certifi==2018.10.15
-cffi==1.11.5
 chardet==3.0.4
 Click==7.0
 coverage==4.5.2
 coveralls==1.5.1
 docopt==0.6.2
 Flask==1.0.2
-Flask-Bcrypt==0.7.1
 Flask-JWT-Extended==3.13.1
 Flask-RESTful==0.3.6
 idna==2.7
@@ -23,10 +20,8 @@ pluggy==0.8.0
 psycopg2==2.7.6.1
 psycopg2-binary==2.7.6.1
 py==1.7.0
-pycparser==2.19
 PyJWT==1.6.4
 pytest==4.0.0
-python-dotenv==0.9.1
 pytz==2018.7
 requests==2.20.1
 six==1.11.0
