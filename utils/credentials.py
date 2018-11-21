@@ -1,6 +1,7 @@
 import re
+from flask import jsonify
 
-def raise_error(status, mgs):
+def raise_error(status, msg):
         return jsonify({
                 "status": "error",
                 "message": msg

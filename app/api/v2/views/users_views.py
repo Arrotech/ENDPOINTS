@@ -1,10 +1,10 @@
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort, Blueprint
-from app.api.v2.models.order_models import UsersModel
+from app.api.v2.models.order_models import OrdersModel
 from werkzeug.security import check_password_hash
-from app.api.v2.models.order_models import UsersModel
+from app.api.v2.models.users_model import UsersModel
 from flask_jwt_extended import create_access_token
-from app.credentials import valid_username, valid_email, valid_password
+from utils.credentials import valid_username, valid_email, valid_password, raise_error
 
 
 class Register(Resource):
@@ -17,23 +17,21 @@ class Register(Resource):
         email = details['email']
         password = details['password']
 
-        if not valid_username(username):
-            return {'message': 'Invalid username'}, 400
 
         if not valid_email(email):
-            return {'message': 'Invalid email'}, 400
+            raise_error(400,"Invalid Username")
 
         if not valid_password(password):
-            return {'message': 'Invalid password'}, 400
+            raise_error(400,"Invalid Username")
 
         if not valid_username(username):
-            return {'message': 'Invalid username'}, 400
+            raise_error(400,"Invalid Username")
 
-        if UsersModel().get_user_by_username(username):
-            return {'message': 'username already in use'}, 400
+        if UsersModel().get_username(username):
+            raise_error(400,"Username Already Exists")
 
-        if UsersModel().get_user_by_email(email):
-            return {'message': 'email already in use'}, 400
+        if UsersModel().get_email(email):
+            raise_error(400,"Email Already Exists")
 
         user = UsersModel()
 
