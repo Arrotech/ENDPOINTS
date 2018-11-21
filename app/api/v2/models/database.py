@@ -1,5 +1,7 @@
 import psycopg2
 import os
+from psycopg2.extras import RealDictCursor
+
 
 class Database:
     def __init__(self):
@@ -12,7 +14,7 @@ class Database:
 
     	self.conn = psycopg2.connect(database=self.db_name,host=self.db_host,user=self.db_user,password=self.db_password)
 
-    	self.curr = self.conn.cursor()
+    	self.curr = self.conn.cursor(cursor_factory=RealDictCursor)
 
     def create_table(self):
         queries = [
@@ -21,8 +23,7 @@ class Database:
 				user_id serial PRIMARY KEY,
 				username varchar(50) NOT NULL,
 				email varchar(50) NOT NULL,
-				password varchar(50) NOT NULL,
-				user_role varchar(50) NOT NULL
+				password varchar(50) NOT NULL
 			)""",
 			"""
 

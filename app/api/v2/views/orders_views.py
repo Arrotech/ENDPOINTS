@@ -1,16 +1,17 @@
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort, Blueprint
-from app.api.v2.models.order_models import UsersModel, OrdersModel
-from app.credentials import raise_error
+from app.api.v2.models.order_models import OrdersModel
+from utils.credentials import raise_error
+
+
+parcel_v2 = Blueprint('v2',__name__,url_prefix='/api/v2/')
 
 
 class DataParcel(Resource):
 
-    def __init__(self):
-        pass 
     
-    #@jwt_required
-    def post(self):
+    @parcel_v2.route('/parcels',methods=['POST'])
+    def post():
         if not request.json or not 'sender_name' in request.json:
             raise_error(400,"Invalid")
         if not request.json or not 'recipient' in request.json:
@@ -48,42 +49,49 @@ class DataParcel(Resource):
         if details["weight"]=="":
             raise_error(400,"Invalid Key")
         if details["username"]=="":
-            raise_error(400,="Invalid Key")
+            raise_error(400,"Invalid Key")
         
-        res = OrdersModel().save(sender_name,recipient,destination,pickup,weight,username)
+        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
         return make_response(jsonify({
+            "status": "success",
             "Parcel Order": res
             }),201)
 
 
-    #@jwt_required
-    def get_parcels(self):
-        orders = OrdersModel().get_all_parcels()
-        #Return an empty list
-        return make_response(jsonify({
+    @parcel_v2.route('/parcels',methods=['GET'])
+    def get_parcels():
+        all_orders = []
+        orders = OrdersModel().get_parcels()
+        if orders:
+            return make_response(jsonify({
+            "status": "success",
             "Parcel Order": orders
             }),200)
-
-class SingleParcel(Resource):
-    
-    def get_parcel(parcel_id):
-        order = ParcelModel().get_parcel_by_id(parcel_id)
+        return all_orders
+        
+        @parcel_v2.route('/parcels/<int:parcel_id>',methods=['GET'])
+        def get_parcel(parcel_id):
+            order = ParcelModel().get_parcel_by_id(parcel_id)
         #Return empty list
         return make_response(jsonify({
+
             "Parcel Order": order
             }),200)
 
+
+    @parcel_v2.route('/parcels/<int:parcel_id>/cancel',methods=['PUT'])  
     def put(parcel_id):
         order = ParcelModel().cancel_order(parcel_id)
         if not order:
             return make_response(jsonify({
-                "Message": "Unavailable order"
-            }), 200)
+                "Message": "Order Not Found"
+            }), 404)
         return jsonify({
             "Status": "Order cancelled",
             "Order" : order
             }), 200
 
+    @parcel_v2.route('/parcels/<int:parcel_id>/cancel',methods=['PUT'])
     def get_user(username):
         user = ParcelModel().user_orders_by_username(username)
         if not user:
@@ -94,6 +102,7 @@ class SingleParcel(Resource):
             "User" : user
             }), 200
 
+    @parcel_v2.route('/parcels/<int:parcel_id>/delete',methods=['DELETE'])
     def delete(parcel_id):
         orders = ParcelModel().get_all_parcels()
         order = [
