@@ -1,11 +1,11 @@
 import re
-from flask import jsonify
+from flask import jsonify, make_response
 
 def raise_error(status, msg):
-        return jsonify({
+        return make_response(jsonify({
                 "status": "error",
                 "message": msg
-            }), status
+            }), status)
 
 def valid_person_name(customer_name):
     '''validate person's name'''
