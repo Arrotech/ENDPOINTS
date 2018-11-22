@@ -11,8 +11,8 @@ install:
   
 before_script:
   - export FLASK_APP='run.py'
-  - psql -c 'create database postgres;' -U postgres
-  - export DB_URL='postgresql://postgres@localhost:5432/postgres'
+  - psql -c 'create database test_orders;' -U postgres
+  - export DB_URL='postgresql://postgres@localhost:5432/test_orders'
   - flask create
 
 script:
