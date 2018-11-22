@@ -17,6 +17,7 @@ before_script:
   - export DB_HOST="localhost"
   - export DB_PASSWORD="postgres"
   - export DB_PORT="5432"
+  - flask create
 
 script:
   - nosetests --with-coverage --cover-package=app
