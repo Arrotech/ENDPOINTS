@@ -9,9 +9,18 @@ install:
   - pip install coverage
   - pip install coveralls
   
+before_script:
+  - psql -c 'create database postgres;' -U postgres
+  - export DB_URL='postgresql://postgres@localhost:5432/postgres'
+  - export DB_NAME="postgres"
+  - export DB_USER="postgres"
+  - export DB_HOST="localhost"
+  - export DB_PASSWORD="postgres"
+  - export DB_PORT="5432"
 
 script:
   - nosetests --with-coverage --cover-package=app
+  - coveralls
 
 after_success:
   - coveralls

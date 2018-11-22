@@ -10,13 +10,16 @@ class DataParcel(Resource):
     
     def post(self):
 
+        details = request.get_json()
+
         errors = check_order_keys(request)
         if errors:
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
+
+            
+        if type(request.json['username'])not in [str]:
+            raise_error(400,"Username should be a string")
         
-
-
-        details = request.get_json()
 
         sender_name = details['sender_name']
         recipient = details['recipient']
