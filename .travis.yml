@@ -3,15 +3,16 @@ language:
   
 python:
   - "3.6"
-
-install:
-  - pip install -r requirements.txt
-  - pip install nose
-  - pip install coverage
-  - pip install coveralls
   
 services:
   - postgresql
+
+install:
+  - pip install -r requirements.txt
+  - pip install pytest
+  - pip install pytest-cov
+  - pip install coveralls
+  - pip install psycopg2-binary
   
 before_script:
   - export FLASK_APP='run.py'
@@ -20,8 +21,7 @@ before_script:
   - flask create
 
 script:
-  - nosetests --with-coverage --cover-package=app && coverage report
-  - coveralls
+  - pytest --cov=app
 
 after_success:
   - coveralls
