@@ -20,7 +20,7 @@ before_script:
   - flask create
 
 script:
-  - nosetests --with-coverage --cover-package=app && coverage report
+  - nosetests --with-coverage --cover-package=app
   - coveralls
 
 after_success:
