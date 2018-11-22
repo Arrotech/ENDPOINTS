@@ -10,8 +10,6 @@ class Database:
     	self.db_user = os.getenv('DB_USER')
     	self.db_password = os.getenv('DB_PASSWORD')
 
-
-
     	self.conn = psycopg2.connect(database=self.db_name,host=self.db_host,user=self.db_user,password=self.db_password)
 
     	self.curr = self.conn.cursor(cursor_factory=RealDictCursor)
@@ -23,7 +21,8 @@ class Database:
 				user_id serial PRIMARY KEY,
 				username varchar(50) NOT NULL,
 				email varchar(50) NOT NULL,
-				password varchar(50) NOT NULL
+				password varchar(50) NOT NULL,
+                check_admin varchar(50) NOT NULL
 			)""",
 			"""
 
@@ -55,3 +54,8 @@ class Database:
             self.curr.close()
         except Exception as e:
             return e
+
+
+'''if __name__ == '__main__':
+    #Database().destroy_table()
+    Database().create_table()'''

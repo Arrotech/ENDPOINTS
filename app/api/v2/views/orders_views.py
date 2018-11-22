@@ -5,28 +5,20 @@ from app.api.v2.models.order_models import OrdersModel
 from utils.credentials import raise_error
 
 
-
 class DataParcel(Resource):
-
-    
+    """Creates a new order."""
     
     def post(self):
-        if not request.json or not 'sender_name' in request.json:
-            raise_error(400,"Invalid")
-        if not request.json or not 'recipient' in request.json:
-            raise_error(400,"Invalid Key")
-        if not request.json or not 'destination' in request.json:
-            raise_error(400,"Invalid Key")
-        if not request.json or not 'pickup' in request.json:
-            raise_error(400,"Invalid Key")
-        if not request.json or not 'weight' in request.json:
-            raise_error(400,"Invalid Key")
-        if not request.json or not 'username' in request.json:
-            raise_error(400,"Invalid Key")
+
+        res_keys = ['sender_name', 'recipient', 'destination', 'pickup', 'weight', 'username']
+
+        for key in res_keys:
+            if key is not request.json:
+                return raise_error(400,"Invalid {}".format(key))
+
 
         if type(request.json['username'])not in [str]:
             raise_error(400,"Username should be a string")
-
 
         details = request.get_json()
 
@@ -52,74 +44,88 @@ class DataParcel(Resource):
         
         res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
         return make_response(jsonify({
-            "message": "Order created successfully!"
+            "message" : "Order created successfully!"
             }),201)
 
+
 class GetParcels(Resource):
+    """Fetch all orders."""
+    
     def get(self):
-        all_orders = []
         orders = OrdersModel().get_all_parcels()
         orders = json.loads(orders)
         if orders:
             return make_response(jsonify({
-            "status": "success",
+            "message": "success",
             "Parcel Order": orders
             }),200)
-        return all_orders
         
-    # def get_parcels(self):
-    #     all_orders = []
-    #     orders = OrdersModel().get_all_parcels()
-    #     if orders:
-    #         return make_response(jsonify({
-    #         "status": "success",
-    #         "Parcel Order": orders
-    #         }),200)
-    #     return all_orders
-        
-        
-    '''def get_parcel(parcel_id):
-        order = ParcelModel().get_parcel_by_id(parcel_id)
-    #Return empty list
-    return make_response(jsonify({
-
-        "Parcel Order": order
-        }),200)
 
 
-      
-    def put(parcel_id):
-        order = OrdersModel().cancel_order(parcel_id)
-        if not order:
+class GetParcel(Resource):
+    """Fetch a specific order."""
+
+
+    def get(self, parcel_id):
+        order = OrdersModel().get_parcel_by_id(parcel_id)
+        order = json.loads(order)
+        if order:
             return make_response(jsonify({
-                "Message": "Order Not Found"
-            }), 404)
-        return jsonify({
-            "Status": "Order cancelled",
-            "Order" : order
-            }), 200
+            "Parcel Order" : order
+            }),200)
 
-    
-    def get_user(username):
-        user = ParcelModel().user_orders_by_username(username)
-        if not user:
-            return make_response(jsonify({
-                "Message": "User does not exist"
-            }), 200)
-        return jsonify({
-            "User" : user
-            }), 200
 
-    
-    def delete(parcel_id):
-        orders = ParcelModel().get_all_parcels()
+class Destination(Resource):
+    """Change order destination."""
+
+
+    def put(self, parcel_id):
+
+        details = request.get_json()
+        
+        destination = details['destination']
+
+        order = OrdersModel().change_destination(destination,parcel_id)
+        if order:
+            return jsonify({
+                "destination" : order
+                })
+
+
+'''class DeleteOrder(Resource):
+    """Delete specific order."""
+
+
+    def delete(self, parcel_id):
+        orders = OrdersModel().get_all_parcels()
         order = [
         order for order in orders if order['parcel_id'] == parcel_id]
         if not order:
-            return make_response(jsonify({'Message': "Order Unavailable"}),  400)
-        parcel = ParcelModel()
+            return make_response(jsonify({'message': "Order Unavailable"}),  404)
+        parcel = OrdersModel()
         parcel.delete_order(parcel_id)
-        return make_response(jsonify({'Message': "Order deleted"}), 200)'''
+        return make_response(jsonify({'message': "Order deleted"}), 200)
+
+
+class CancelOrder(Resource):
+    """Cancel specific order."""
+
+
+    def put(self, parcel_id):
+        order = OrdersModel().cancel_order(parcel_id)
+        if order:
+            return jsonify({
+                "Status": "Order cancelled",
+                "Order" : order
+                }), 200
+        return make_response(jsonify({
+                "Message": "Order Not Found"
+            }), 404)'''
+
+    
+
+    
+    
 
 
 
