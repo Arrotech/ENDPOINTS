@@ -2,7 +2,7 @@ from flask_restful import Resource
 import json
 from flask import make_response, jsonify, request, abort, Blueprint
 from app.api.v2.models.order_models import OrdersModel
-from utils.credentials import raise_error
+from utils.credentials import raise_error, check_order_keys
 
 
 class DataParcel(Resource):
@@ -10,33 +10,44 @@ class DataParcel(Resource):
     
     def post(self):
 
-        res_keys = ['sender_name', 'recipient', 'destination', 'pickup', 'weight', 'username']
-
-        for key in res_keys:
-            if key is not request.json:
-                return raise_error(400,"Invalid {}".format(key))
-
-        for empty_key in keys:
-            if key is not request.json:
-                return raise_error(400,"Key cannot be empty {}".format(key))
-
-
-        if type(request.json['username'])not in [str]:
-            raise_error(400,"Username should be a string")
-
         details = request.get_json()
 
-        sender_name = details['sender_name'].isalpha()
-        recipient = details['recipient'].isalpha()
-        destination = details['destination'].isalpha()
-        pickup = details['pickup'].isalpha()
-        weight = details['weight'].isalpha()
-        username = details['username'].isalpha()
+        errors = check_order_keys(request)
+        if errors:
+            return raise_error(400,"Invalid {} key".format(', '.join(errors)))
+
+            
+        if type(request.json['username'])not in [str]:
+            raise_error(400,"Username should be a string")
+        
+
+        sender_name = details['sender_name']
+        recipient = details['recipient']
+        destination = details['destination']
+        pickup = details['pickup']
+        weight = details['weight']
+        username = details['username']
+
+
+        if details['sender_name'].isalpha()== False:
+            return {"Status": "sender_name is in wrong format"}
+
+        if details['recipient'].isalpha()== False:
+            return {"Status": "recipient is in wrong format"}
+
+        if details['pickup'].isalpha()== False:
+            return {"Status": "pickup is in wrong format"}
+
+        if details['destination'].isalpha()== False:
+            return {"Status": "destination is is wrong format"}
+
+        if details['username'].isalpha()== False:
+            return {"Status": "username is in wrong format"}
 
         
         res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
         return make_response(jsonify({
-            "message" : "Order created successfully!"
+                "message" : "Order created successfully!"
             }),201)
 
 
@@ -48,8 +59,8 @@ class GetParcels(Resource):
         orders = json.loads(orders)
         if orders:
             return make_response(jsonify({
-            "message": "success",
-            "Parcel Order": orders
+                "message": "success",
+                "Parcel Order": orders
             }),200)
         
 
@@ -63,6 +74,7 @@ class GetParcel(Resource):
         order = json.loads(order)
         if order:
             return make_response(jsonify({
+            "message": "success",
             "Parcel Order" : order
             }),200)
 

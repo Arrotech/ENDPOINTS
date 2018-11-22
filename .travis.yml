@@ -20,8 +20,9 @@ before_script:
   - export DB_URL='postgresql://postgres@localhost:5432/test_orders'
   - flask create
 
-script:
-  - pytest --cov=app
+script
+  - nosetests --with-coverage --cover-package=app
+  - coveralls
 
 after_success:
   - coveralls

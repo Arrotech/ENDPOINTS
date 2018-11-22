@@ -1,6 +1,57 @@
 import re
 from flask import jsonify, make_response
 
+def check_register_keys(request):
+
+    res_keys = ['email', 'username', 'password', 'check_admin']
+
+    errors = []
+
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+
+    return errors
+
+def check_order_keys(request):
+
+    res_keys = ['sender_name', 'recipient', 'pickup', 'destination', 'weight', 'username']
+
+    errors = []
+
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+
+    return errors
+
+'''def check_orders_is_alpha(request):
+
+    res_keys = ['sender_name', 'recipient', 'pickup', 'destination', 'username']
+
+    alpha_errors = []
+
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+
+    return alpha_errors'''
+
+
+def check_login_keys(request):
+
+    res_keys = ['username', 'password']
+
+    errors = []
+
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+
+    return errors
+
+    
+
 def raise_error(status, msg):
         return make_response(jsonify({
                 "status": "error",
