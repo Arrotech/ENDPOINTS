@@ -15,7 +15,8 @@ services:
   
 before_script:
   - psql -c 'create database test_orders;' -U postgres
-  
+  - export DB_URL='postgresql://postgres@localhost:5432/test_orders'
+  - flask migrate
 
 script:
   - nosetests --with-coverage --cover-package=app && coverage report
