@@ -10,13 +10,9 @@ install:
   - pip install coveralls
   
 before_script:
+  - export FLASK_APP='run.py'
   - psql -c 'create database postgres;' -U postgres
   - export DB_URL='postgresql://postgres@localhost:5432/postgres'
-  - export DB_NAME="postgres"
-  - export DB_USER="postgres"
-  - export DB_HOST="localhost"
-  - export DB_PASSWORD="postgres"
-  - export DB_PORT="5432"
   - flask create
 
 script:
