@@ -16,31 +16,23 @@ class DataParcel(Resource):
             if key is not request.json:
                 return raise_error(400,"Invalid {}".format(key))
 
+        for empty_key in keys:
+            if key is not request.json:
+                return raise_error(400,"Key cannot be empty {}".format(key))
+
 
         if type(request.json['username'])not in [str]:
             raise_error(400,"Username should be a string")
 
         details = request.get_json()
 
-        sender_name = details['sender_name']
-        recipient = details['recipient']
-        destination = details['destination']
-        pickup = details['pickup']
-        weight = details['weight']
-        username = details['username']
+        sender_name = details['sender_name'].isalpha()
+        recipient = details['recipient'].isalpha()
+        destination = details['destination'].isalpha()
+        pickup = details['pickup'].isalpha()
+        weight = details['weight'].isalpha()
+        username = details['username'].isalpha()
 
-        if details["sender_name"]=="":
-            raise_error(400,"Invalid Key")
-        if details["recipient"]=="":
-            raise_error(400,"Invalid Key")
-        if details["destination"]=="":
-            raise_error(400,"Invalid Key")
-        if details["pickup"]=="":
-            raise_error(400,"Invalid Key")
-        if details["weight"]=="":
-            raise_error(400,"Invalid Key")
-        if details["username"]=="":
-            raise_error(400,"Invalid Key")
         
         res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
         return make_response(jsonify({
@@ -82,8 +74,8 @@ class Destination(Resource):
     def put(self, parcel_id):
 
         details = request.get_json()
-        
-        destination = details['destination']
+
+        destination = details['destination'].isalpha()
 
         order = OrdersModel().change_destination(destination,parcel_id)
         if order:
@@ -91,36 +83,23 @@ class Destination(Resource):
                 "destination" : order
                 })
 
-
-'''class DeleteOrder(Resource):
-    """Delete specific order."""
-
-
-    def delete(self, parcel_id):
-        orders = OrdersModel().get_all_parcels()
-        order = [
-        order for order in orders if order['parcel_id'] == parcel_id]
-        if not order:
-            return make_response(jsonify({'message': "Order Unavailable"}),  404)
-        parcel = OrdersModel()
-        parcel.delete_order(parcel_id)
-        return make_response(jsonify({'message': "Order deleted"}), 200)
-
-
-class CancelOrder(Resource):
-    """Cancel specific order."""
+class PresentLocation(Resource):
+    """Change order destination."""
 
 
     def put(self, parcel_id):
-        order = OrdersModel().cancel_order(parcel_id)
+
+        details = request.get_json()
+
+        pickup = details['pickup'].isalpha()
+
+        order = OrdersModel().change_present_location(pickup,parcel_id)
         if order:
             return jsonify({
-                "Status": "Order cancelled",
-                "Order" : order
-                }), 200
-        return make_response(jsonify({
-                "Message": "Order Not Found"
-            }), 404)'''
+                "pickup" : order
+                })
+
+
 
     
 

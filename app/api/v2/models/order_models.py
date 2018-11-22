@@ -63,22 +63,17 @@ class OrdersModel(Database):
 
 		return orders
 
-	'''@jwt_required
-	def delete_order(self, parcel_id):
-
-		self.curr.execute(""" SELECT * FROM orders WHERE parcel_id={}""".format(parcel_id ))
-		order = self.curr.fetchone()
-		self.conn.commit()
-		self.curr.close()
-
-		return order
-
 	@jwt_required
-	def cancel_order(self, parcel_id):
+	def change_present_location(self, parcel_id, pickup):
+		self.curr.execute("""UPDATE orders\
+			SET pickup='{}'\
+			WHERE parcel_id={} RETURNING pickup, parcel_id"""\
+			.format(parcel_id,pickup))
 
-		self.curr.execute(""" SELECT * FROM orders WHERE parcel_id={}""".format(parcel_id ))
-		order = self.curr.fetchone()
+		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
 
-		return order'''
+		return orders
+
+	
