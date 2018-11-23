@@ -19,22 +19,22 @@ class Database:
         	"""
 	        CREATE TABLE IF NOT EXISTS users(
 				user_id serial PRIMARY KEY,
-				username varchar NOT NULL,
-				email varchar NOT NULL,
-				hash_password varchar NOT NULL,
-                check_admin varchar NOT NULL DEFAULT 'User'
+				username varchar(50) NOT NULL,
+				email varchar(50) NOT NULL,
+				password varchar(50) NOT NULL,
+                check_admin varchar(50) NOT NULL DEFAULT 'User'
 			)""",
 			"""
 
 			CREATE TABLE IF NOT EXISTS orders(
 				parcel_id serial PRIMARY KEY,
-				sender_name varchar NOT NULL,
-				recipient varchar NOT NULL,
-				destination varchar NOT NULL,
-				pickup varchar NOT NULL,
+				sender_name varchar(50) NOT NULL,
+				recipient varchar(50) NOT NULL,
+				destination varchar(50) NOT NULL,
+				pickup varchar(50) NOT NULL,
 				weight numeric NOT NULL,
-				username varchar NOT NULL,
-                order_status varchar NOT NULL DEFAULT 'In-Transit'
+				username varchar(50) NOT NULL,
+                order_status varchar(50) NOT NULL DEFAULT 'In-Transit'
 			)"""
 
         ]

@@ -6,26 +6,21 @@ from flask_jwt_extended import jwt_required
 class UsersModel(Database): 
 
 	
-	def __init__(self,username=None,email=None,hash_password=None,check_admin=None):
+	def __init__(self,username=None,email=None,password=None,check_admin=None):
 		super().__init__()
 		self.username = username
 		self.email = email
-		self.hash_password = hash_password
-		self.check_admin = False
+		self.password = password
+		self.check_admin = check_admin
 
 	
-	def save(self,username,email,hash_password,check_admin):
-
-		if self.check_admin:
-			user_role = 'User'
-		else:
-			user_role = 'Admin'
+	def save(self,username,email,password,check_admin):
 
 
 		self.curr.execute(
-            ''' INSERT INTO users(username, email, hash_password, check_admin)\
-             VALUES('{}','{}','{}','{}') RETURNING username, email, hash_password, check_admin'''\
-            .format(username,email,hash_password,user_role))
+            ''' INSERT INTO users(username, email, password, check_admin)\
+             VALUES('{}','{}','{}','{}') RETURNING username, email, password, check_admin'''\
+            .format(username,email,password,check_admin))
 		create = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
@@ -34,8 +29,7 @@ class UsersModel(Database):
 
 	def get_username(self, username):
 
-
-		self.curr.execute(""" SELECT * FROM users WHERE username='{}'""",(username,))
+		self.curr.execute(""" SELECT * FROM users WHERE username='{}'""".format(username))
 		user = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
@@ -43,16 +37,10 @@ class UsersModel(Database):
 
 	def get_email(self, email):
 
-		self.curr.execute(""" SELECT * FROM users WHERE email='{}'""",(email,))
+		self.curr.execute(''' SELECT * FROM users WHERE email=%s''',(email, ))
 		user = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
-
-		
 		return user
-
-	
-
-	
 
 

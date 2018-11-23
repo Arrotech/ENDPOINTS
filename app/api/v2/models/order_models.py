@@ -30,6 +30,7 @@ class OrdersModel(Database):
 		self.conn.commit()
 		self.curr.close()
 		return orders
+		
 
 	@jwt_required
 	def get_all_parcels(self):
@@ -41,9 +42,11 @@ class OrdersModel(Database):
 		self.curr.close()
 		return json.dumps(orders, default=str)
 
+
 	@jwt_required
 	def get_parcel_by_id(self, parcel_id):
 		"""Fetch a single order"""
+
 
 		self.curr.execute(""" SELECT * FROM orders WHERE parcel_id={}""".format(parcel_id ))
 		order = self.curr.fetchone()

@@ -25,18 +25,6 @@ def check_order_keys(request):
 
     return errors
 
-'''def check_orders_is_alpha(request):
-
-    res_keys = ['sender_name', 'recipient', 'pickup', 'destination', 'username']
-
-    alpha_errors = []
-
-    for key in res_keys:
-        if not key in request.json:
-            errors.append(key)
-
-    return alpha_errors'''
-
 
 def check_login_keys(request):
 
