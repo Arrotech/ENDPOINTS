@@ -13,7 +13,6 @@ class TestUsers(unittest.TestCase):
 		self.app_context.push()
 
 		
-
 	def get_token(self):
 
 		self.client.post('/api/v2/auth/signup', data=json.dumps(user_register),
@@ -38,6 +37,8 @@ class TestUsers(unittest.TestCase):
 		result = json.loads(response.data.decode())
 		self.assertEqual(result['message'], 'successfully logged in', msg='not allowed')
 		assert response.status_code == 200
+
+
 
 
 

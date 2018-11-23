@@ -21,8 +21,8 @@ class Database:
 				user_id serial PRIMARY KEY,
 				username varchar(50) NOT NULL,
 				email varchar(50) NOT NULL,
-				password varchar(50) NOT NULL,
-                check_admin varchar(50) NOT NULL
+				password varchar NOT NULL,
+                check_admin varchar(50) NOT NULL DEFAULT 'User'
 			)""",
 			"""
 
@@ -33,7 +33,8 @@ class Database:
 				destination varchar(50) NOT NULL,
 				pickup varchar(50) NOT NULL,
 				weight numeric NOT NULL,
-				username varchar(50) NOT NULL
+				username varchar(50) NOT NULL,
+                order_status varchar(50) NOT NULL DEFAULT 'In-Transit'
 			)"""
 
         ]
@@ -54,8 +55,3 @@ class Database:
             self.curr.close()
         except Exception as e:
             return e
-
-
-'''if __name__ == '__main__':
-    #Database().destroy_table()
-    Database().create_table()'''
