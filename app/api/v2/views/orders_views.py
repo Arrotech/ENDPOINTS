@@ -31,22 +31,22 @@ class DataParcel(Resource):
 
 
         if details['sender_name'].isalpha()== False:
-            return make_response(jsonify({"Status": "sender_name is in wrong format"}),400)
+            return make_response(jsonify({"message": "sender_name is in wrong format"}),400)
 
         if details['recipient'].isalpha()== False:
-            return make_response(jsonify({"Status": "recipient is in wrong format"}),400)
+            return make_response(jsonify({"message": "recipient is in wrong format"}),400)
 
         if details['pickup'].isalpha()== False:
-            return make_response(jsonify({"Status": "pickup is in wrong format"}),400)
+            return make_response(jsonify({"message": "pickup is in wrong format"}),400)
 
         if details['destination'].isalpha()== False:
-            return make_response(jsonify({"Status": "destination is is wrong format"}),400)
+            return make_response(jsonify({"message": "destination is is wrong format"}),400)
 
         if details['username'].isalpha()== False:
-            return make_response(jsonify({"Status": "username is in wrong format"}),400)
+            return make_response(jsonify({"message": "username is in wrong format"}),400)
 
         if details['order_status'].isalpha()== False:
-            return make_response(jsonify({"Status": "Order status is in wrong format"}),400)
+            return make_response(jsonify({"message": "Order status is in wrong format"}),400)
 
         
         res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username, order_status)
@@ -81,6 +81,9 @@ class GetParcel(Resource):
             "message": "success",
             "Parcel Order" : order
             }),200)
+        return make_response(jsonify({
+            "message": "Order Not Found"
+            }),404)
 
 
 class Destination(Resource):
@@ -91,7 +94,15 @@ class Destination(Resource):
 
         details = request.get_json()
 
+        errors = check_order_keys(request)
+        if errors:
+            return raise_error(400,"Invalid {} key".format(', '.join(errors)))
+
+        if details['destination'].isalpha()== False:
+            return make_response(jsonify({"message": "destination is in wrong format"}),400)
+
         destination = details['destination']
+ 
 
         order = OrdersModel().change_destination(destination,parcel_id)
         if order:
@@ -107,7 +118,15 @@ class PresentLocation(Resource):
 
         details = request.get_json()
 
+        errors = check_order_keys(request)
+        if errors:
+            return raise_error(400,"Invalid {} key".format(', '.join(errors)))
+
+        if details['pickup'].isalpha()== False:
+            return make_response(jsonify({"message": "pickup is in wrong format"}),400)
+
         pickup = details['pickup']
+
 
         order = OrdersModel().change_present_location(pickup,parcel_id)
         if order:
@@ -122,6 +141,13 @@ class ChangeStatus(Resource):
         """Change status."""
         
         details = request.get_json()
+
+        errors = check_order_keys(request)
+        if errors:
+            return raise_error(400,"Invalid {} key".format(', '.join(errors)))
+
+        if details['order_status'].isalpha()== False:
+            return make_response(jsonify({"message": "order_status is in wrong format"}),400)
 
         order_status = details['order_status']
 
