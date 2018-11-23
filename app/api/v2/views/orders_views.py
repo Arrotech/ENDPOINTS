@@ -16,7 +16,7 @@ class DataParcel(Resource):
         if errors:
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
 
-            
+
         if type(request.json['username'])not in [str]:
             raise_error(400,"Username should be a string")
         
@@ -27,25 +27,29 @@ class DataParcel(Resource):
         pickup = details['pickup']
         weight = details['weight']
         username = details['username']
+        order_status = details['order_status']
 
 
         if details['sender_name'].isalpha()== False:
-            return {"Status": "sender_name is in wrong format"}
+            return make_response(jsonify({"Status": "sender_name is in wrong format"}),400)
 
         if details['recipient'].isalpha()== False:
-            return {"Status": "recipient is in wrong format"}
+            return make_response(jsonify({"Status": "recipient is in wrong format"}),400)
 
         if details['pickup'].isalpha()== False:
-            return {"Status": "pickup is in wrong format"}
+            return make_response(jsonify({"Status": "pickup is in wrong format"}),400)
 
         if details['destination'].isalpha()== False:
-            return {"Status": "destination is is wrong format"}
+            return make_response(jsonify({"Status": "destination is is wrong format"}),400)
 
         if details['username'].isalpha()== False:
-            return {"Status": "username is in wrong format"}
+            return make_response(jsonify({"Status": "username is in wrong format"}),400)
+
+        if details['order_status'].isalpha()== False:
+            return make_response(jsonify({"Status": "Order status is in wrong format"}),400)
 
         
-        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
+        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username, order_status)
         return make_response(jsonify({
                 "message" : "Order created successfully!"
             }),201)
@@ -87,7 +91,7 @@ class Destination(Resource):
 
         details = request.get_json()
 
-        destination = details['destination'].isalpha()
+        destination = details['destination']
 
         order = OrdersModel().change_destination(destination,parcel_id)
         if order:
@@ -103,7 +107,7 @@ class PresentLocation(Resource):
 
         details = request.get_json()
 
-        pickup = details['pickup'].isalpha()
+        pickup = details['pickup']
 
         order = OrdersModel().change_present_location(pickup,parcel_id)
         if order:
@@ -111,6 +115,21 @@ class PresentLocation(Resource):
                 "pickup" : order
                 })
 
+
+class ChangeStatus(Resource):
+
+    def put(self, parcel_id):
+        """Change status."""
+        
+        details = request.get_json()
+
+        order_status = details['order_status']
+
+        order = OrdersModel().change_status(order_status,parcel_id)
+        if order:
+            return jsonify({
+                "order_status" : order
+                })
 
 
     

@@ -1,4 +1,4 @@
-from database import Database
+from app.api.v2.models.database import Database
 
 
 

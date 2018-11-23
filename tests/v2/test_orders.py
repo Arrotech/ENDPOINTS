@@ -1,7 +1,7 @@
 import unittest
 from app import parcel_app
 import json
-from utils.dummy import create_order, get_order, user_login, user_register
+from utils.dummy import create_order, get_order, user_login, user_register, wrong_key_data, wrong_value_data
 
 
 class TestEndpoints(unittest.TestCase):
@@ -52,6 +52,19 @@ class TestEndpoints(unittest.TestCase):
 		result = json.loads(response.data.decode())
 		assert response.status_code == 404
 		assert result['status'] == "not found"
+
+	def test_wrong_key(self):
+		response = self.client.post(
+			'/api/v2/parcels', data=json.dumps(wrong_key_data), content_type='application/json', headers=self.get_token())
+		result = json.loads(response.data.decode())
+		assert response.status_code == 400
+
+	def test_wrong_value(self):
+		response = self.client.post(
+			'/api/v2/parcels', data=json.dumps(wrong_value_data), content_type='application/json', headers=self.get_token())
+		result = json.loads(response.data.decode())
+		assert response.status_code == 400
+
 
 
 
