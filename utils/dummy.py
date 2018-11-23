@@ -50,3 +50,19 @@ get_order = {
 "username": "njosh",
 "order_status": "Delivered"
 }
+
+wrong_pickup_key = {
+"piCkup": "jkuat"
+}
+
+wrong_pickup_value = {
+"pickup": "  !2@mombasa"
+}
+
+wrong_destination_key = {
+"destnation": "jkuat"
+}
+
+wrong_destination_value = {
+"destination": "basa "
+}

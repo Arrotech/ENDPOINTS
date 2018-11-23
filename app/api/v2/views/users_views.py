@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort, Blueprint
 from app.api.v2.models.order_models import OrdersModel
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from app.api.v2.models.users_model import UsersModel
 from flask_jwt_extended import create_access_token
 from utils.credentials import valid_username, valid_email, valid_password, raise_error, check_register_keys, check_login_keys
@@ -27,7 +27,7 @@ class Register(Resource):
 
         username = details['username']
         email = details['email']
-        password = details['password']
+        hash_password = generate_password_hash(details['password'])
         check_admin = details['check_admin']
 
 
@@ -46,7 +46,7 @@ class Register(Resource):
         if not valid_email(email):
             raise_error(400,"Invalid Username")
 
-        if not valid_password(password):
+        if not valid_password(hash_password):
             raise_error(400,"Invalid Username")
 
         if not valid_username(username):
@@ -61,7 +61,7 @@ class Register(Resource):
             raise_error(400,"Email Already Exists")
 
         user = UsersModel()
-        user.save(username, email, password, check_admin)
+        user.save(username, email, hash_password, check_admin)
 
         return {'message': 'Account created successfully'}, 201
 

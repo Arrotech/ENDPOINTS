@@ -22,7 +22,6 @@ class OrdersModel(Database):
 		"""Create a new orders."""
 
 		print(sender_name, recipient, destination, pickup, weight, username, order_status)
-
 		self.curr.execute(
 			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username)\
 			VALUES('{}','{}','{}','{}','{}','{}') RETURNING sender_name, recipient, destination, pickup, username'''\
@@ -30,7 +29,6 @@ class OrdersModel(Database):
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
-
 		return orders
 
 	@jwt_required
@@ -38,7 +36,6 @@ class OrdersModel(Database):
 		"""Fetch all orders"""
 
 		self.curr.execute(''' SELECT * FROM orders''')
-	
 		orders = self.curr.fetchall()
 		self.conn.commit()
 		self.curr.close()
@@ -52,7 +49,6 @@ class OrdersModel(Database):
 		order = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
-
 		return json.dumps(order, default=str)
 
 	@jwt_required
@@ -64,7 +60,6 @@ class OrdersModel(Database):
 			SET destination='{}'\
 			WHERE parcel_id={} RETURNING destination, pickup"""\
 			.format(parcel_id,destination))
-
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
@@ -80,7 +75,6 @@ class OrdersModel(Database):
 			SET pickup='{}'\
 			WHERE parcel_id={} RETURNING pickup, parcel_id"""\
 			.format(parcel_id,pickup))
-
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
@@ -96,11 +90,9 @@ class OrdersModel(Database):
 			SET order_status='{}'\
 			WHERE parcel_id={} RETURNING order_status, parcel_id"""\
 			.format(parcel_id,order_status))
-
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
-
 		return orders
 
 	

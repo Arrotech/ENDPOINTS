@@ -76,10 +76,10 @@ def valid_username(username):
     return re.match(regex, username)
 
 
-def valid_password(password):
+def valid_password(hash_password):
     '''validate password , min of 6 chars'''
     regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{6,}$"
-    return re.match(regex, password)
+    return re.match(regex, hash_password)
 
 
 def valid_email(email):
