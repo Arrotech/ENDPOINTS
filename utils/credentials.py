@@ -46,7 +46,7 @@ def raise_error(status, msg):
                 "message": msg
             }), status)
 
-def valid_person_name(customer_name):
+"""def valid_person_name(customer_name):
     '''validate person's name'''
     regex = "^[a-zA-Z ]{4,}$"
     return re.match(regex, customer_name)
@@ -72,5 +72,29 @@ def valid_password(hash_password):
 
 def valid_email(email):
     ''' validate email '''
-    regex = "^[^@]+@[^@]+\.[^@]+$"
-    return re.match(regex, email)
+    regex = "^[^@]+@[^@]+[^@]+$"
+    return re.match(regex, email)"""
+
+def is_valid_email(variable):
+   """Check if email is a valid mail."""
+   if re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
+               variable):
+       return True
+   return False
+def is_valid_numbers(variable):
+   """Check if input has valid numbers."""
+   if re.match(r'[0-9$]', variable):
+       return True
+   return False
+def is_valid_password(variable):
+   """Check if password is a valid password."""
+   if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', variable):
+       return True
+   return False
+def is_valid_username(variable):
+   """Check if username is a valid username."""
+   if re.match(r'[A-Za-z$]', variable):
+       return True
+   return False
+
+

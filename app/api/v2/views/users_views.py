@@ -1,10 +1,10 @@
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort, Blueprint
 from app.api.v2.models.order_models import OrdersModel
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from app.api.v2.models.users_model import UsersModel
 from flask_jwt_extended import create_access_token
-from utils.credentials import valid_username, valid_email, valid_password, raise_error, check_register_keys, check_login_keys
+from utils.credentials import is_valid_email, is_valid_numbers, is_valid_password, is_valid_username, raise_error, check_register_keys, check_login_keys
 import json
 
 
@@ -27,7 +27,7 @@ class Register(Resource):
 
         username = details['username']
         email = details['email']
-        password = details['password']
+        password = generate_password_hash(details['password'])
         check_admin = details['check_admin']
 
 
@@ -42,13 +42,13 @@ class Register(Resource):
         if type(request.json['username'])not in [str]:
             raise_error(400,"Username should be a string")
 
-        if not valid_email(email):
+        if not is_valid_email(email):
             raise_error(400,"Invalid Username")
 
-        if not valid_password(password):
+        if not is_valid_password(password):
             raise_error(400,"Invalid Username")
 
-        if not valid_username(username):
+        if not is_valid_username(username):
             raise_error(400,"Invalid Username")
 
         if UsersModel().get_username(username):
