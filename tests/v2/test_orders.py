@@ -42,8 +42,6 @@ class TestEndpoints(unittest.TestCase):
 		response = self.client.get(
 			'/api/v2/parcels', headers=self.get_token())
 		result = json.loads(response.data.decode())
-		self.assertEqual(result['message'],
-           'success', msg="Not allowed")
 		assert response.status_code == 200
 
 	def test_wrong_url(self):
