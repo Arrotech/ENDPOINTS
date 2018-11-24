@@ -16,7 +16,6 @@ class Register(Resource):
     def post(self):
         """Create new account."""
 
-
         details = request.get_json()
 
         username = details['username']
@@ -37,14 +36,10 @@ class Register(Resource):
             raise_error(400,"Password required")
         if type(request.json['username'])not in [str]:
             return {"message": "Invalid username"}
-
         if not is_valid_email(email):
             return {"message": "Invalid email or Password"}
-
-
         if UsersModel().get_username(username):
             return {"message": "Username Already Exists"}
-
         if UsersModel().get_email(email):
             return {"message": "Email Already Exists"}
 

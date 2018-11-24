@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash
 
 class UsersModel(Database): 
 
-	
 	def __init__(self,username=None,email=None,password=None,admin=False):
 
 		super().__init__()

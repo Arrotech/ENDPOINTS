@@ -5,7 +5,6 @@ from app.api.v2.models.order_models import OrdersModel
 from utils.credentials import raise_error, check_order_keys
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-
 class DataParcel(Resource):
     """Creates a new order."""
     @jwt_required

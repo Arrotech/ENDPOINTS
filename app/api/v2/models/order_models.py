@@ -16,7 +16,6 @@ class OrdersModel(Database):
 		self.username = username
 		self.order_status = order_status
 		
-
 	@jwt_required
 	def save(self, sender_name, recipient, destination, pickup, weight, username, order_status):
 		"""Create a new orders."""
@@ -31,7 +30,6 @@ class OrdersModel(Database):
 		self.curr.close()
 		return orders
 		
-
 	@jwt_required
 	def get_all_parcels(self):
 		"""Fetch all orders"""
@@ -42,11 +40,9 @@ class OrdersModel(Database):
 		self.curr.close()
 		return json.dumps(orders, default=str)
 
-
 	@jwt_required
 	def get_parcel_by_id(self, parcel_id):
 		"""Fetch a single order"""
-
 
 		self.curr.execute(""" SELECT * FROM orders WHERE parcel_id={}""".format(parcel_id ))
 		order = self.curr.fetchone()
@@ -67,7 +63,6 @@ class OrdersModel(Database):
 		self.curr.close()
 		return orders
 
-
 	@jwt_required
 	def change_present_location(self, parcel_id, pickup):
 		"""Admin can Change present location"""
@@ -80,7 +75,6 @@ class OrdersModel(Database):
 		self.conn.commit()
 		self.curr.close()
 		return orders
-
 
 	@jwt_required
 	def change_status(self, parcel_id, order_status):
