@@ -1,13 +1,13 @@
 user_register = {
-"email": "arrotechdesign@gmail.com",
+"email": "janie@gmail.com",
 "password": "20930988",
-"username": "arrotech",
-"check_admin": "is admin"
+"username": "janie",
+"admin": "False"
 }
 
 user_login = {
 "password": "20930988",
-"username": "arrotech"
+"username": "janie"
 }
 
 create_order = {

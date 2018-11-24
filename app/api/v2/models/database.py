@@ -22,7 +22,7 @@ class Database:
 				username varchar(50) NOT NULL,
 				email varchar(50) NOT NULL,
 				password varchar NOT NULL,
-                check_admin varchar(50) NOT NULL DEFAULT 'User'
+                admin varchar(50) NOT NULL
 			)""",
 			"""
 

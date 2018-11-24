@@ -3,7 +3,7 @@ from flask import jsonify, make_response
 
 def check_register_keys(request):
 
-    res_keys = ['email', 'username', 'password', 'check_admin']
+    res_keys = ['email', 'username', 'password']
 
     errors = []
 

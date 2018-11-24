@@ -1,7 +1,7 @@
 import unittest
 import json
 from app import parcel_app
-from utils.dummy import user_register, user_login 
+from utils.dummy import user_register, user_login, wrong_key_data, wrong_value_data
 
 
 class TestUsers(unittest.TestCase):
@@ -31,6 +31,13 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(result['message'], 'Account created successfully', msg='not allowed')
 		assert response.status_code == 201
 
+	def test_username_exists(self):
+		response = self.client.post(
+			'/api/v2/auth/signup', data=json.dumps(user_register), content_type='application/json', headers=self.get_token())
+		result = json.loads(response.data.decode())
+		self.assertEqual(result['message'], 'Username Already Exists', msg='not allowed')
+		assert response.status_code == 200
+
 	def test_signin_account(self):
 		response = self.client.post(
 			'/api/v2/auth/login', data=json.dumps(user_login), content_type='application/json', headers=self.get_token())
@@ -39,7 +46,54 @@ class TestUsers(unittest.TestCase):
 		assert response.status_code == 200
 
 
+	def test_unexisting_order(self):
 
+		res = self.client.get(
+			"/api/v2/parcels/568", content_type="application/json", headers=self.get_token())
+		self.assertEqual(res.status_code, 404)
+		self.assertEqual(json.loads(res.data)['message'], "Order Not Found")
+
+	def test_invalid_name(self):
+
+		res = self.client.post(
+			"/api/v2/parcels",
+			data=json.dumps(wrong_key_data), content_type="application/json", headers=self.get_token())
+
+		self.assertEqual(res.status_code, 400)
+		self.assertEqual(
+			json.loads(res.data)['message'], "Invalid sender_name key")
+
+	def test_invalid_username(self):
+		
+
+		res = self.client.post(
+			"/api/v2/parcels",
+			data=json.dumps(wrong_value_data), content_type="application/json", headers=self.get_token())
+
+		self.assertEqual(res.status_code, 400)
+		self.assertEqual(
+			json.loads(res.data)['message'], "pickup is in wrong format")
+
+	def test_invalid_destination(self):
+
+		res = self.client.post(
+			"/api/v2/parcels",
+			data=json.dumps(wrong_value_data), content_type="application/json", headers=self.get_token())
+
+		self.assertEqual(res.status_code, 400)
+		self.assertEqual(
+			json.loads(res.data)['message'],
+			"pickup is in wrong format")
+
+	def test_delivered_orders(self):
+		data = {
+        "order_status": "delivered",
+        "parcel_id": 1
+    	}
+
+		res = self.client.put(
+			"/api/v2/parcels/1/status", data=json.dumps(data), content_type="application/json", headers=self.get_token())
+		self.assertEqual(res.status_code, 200)
 
 
     
