@@ -18,11 +18,6 @@ class Register(Resource):
 
         details = request.get_json()
 
-        username = details['username']
-        email = details['email']
-        password = generate_password_hash(details['password'])
-        admin = details['admin']
-
         errors = check_register_keys(request)
         if errors:
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
@@ -36,6 +31,12 @@ class Register(Resource):
             raise_error(400,"Password required")
         if type(request.json['username'])not in [str]:
             return {"message": "Invalid username"}
+
+        username = details['username']
+        email = details['email']
+        password = generate_password_hash(details['password'])
+        admin = details['admin']
+        
         if not is_valid_email(email):
             return {"message": "Invalid email or Password"}
         if UsersModel().get_username(username):

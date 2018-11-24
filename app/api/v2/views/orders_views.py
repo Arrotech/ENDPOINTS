@@ -17,6 +17,15 @@ class DataParcel(Resource):
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
         if type(request.json['username'])not in [str]:
             raise_error(400,"Username should be a string")
+
+        sender_name = details['sender_name']
+        recipient = details['recipient']
+        destination = details['destination']
+        pickup = details['pickup']
+        weight = details['weight']
+        username = details['username']
+        order_status = details['order_status']
+
         if details['sender_name'].isalpha()== False:
             return make_response(jsonify({"message": "sender_name is in wrong format"}),400)
         if details['recipient'].isalpha()== False:
@@ -29,14 +38,6 @@ class DataParcel(Resource):
             return make_response(jsonify({"message": "username is in wrong format"}),400)
         if details['order_status'].isalpha()== False:
             return make_response(jsonify({"message": "Order status is in wrong format"}),400)
-
-        sender_name = details['sender_name']
-        recipient = details['recipient']
-        destination = details['destination']
-        pickup = details['pickup']
-        weight = details['weight']
-        username = details['username']
-        order_status = details['order_status']
 
         res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username, order_status)
         return make_response(jsonify({
