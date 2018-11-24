@@ -3,11 +3,12 @@ import json
 from flask import make_response, jsonify, request, abort, Blueprint
 from app.api.v2.models.order_models import OrdersModel
 from utils.credentials import raise_error, check_order_keys
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 class DataParcel(Resource):
     """Creates a new order."""
-    
+    @jwt_required
     def post(self):
 
         details = request.get_json()
@@ -57,7 +58,7 @@ class DataParcel(Resource):
 
 class GetParcels(Resource):
     """Fetch all orders."""
-    
+    @jwt_required
     def get(self):
         orders = OrdersModel().get_all_parcels()
         orders = json.loads(orders)
@@ -89,7 +90,7 @@ class GetParcel(Resource):
 class Destination(Resource):
     """Change order destination."""
 
-
+    @jwt_required
     def put(self, parcel_id):
 
         details = request.get_json()

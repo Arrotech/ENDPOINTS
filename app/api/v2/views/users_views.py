@@ -28,7 +28,7 @@ class Register(Resource):
         username = details['username']
         email = details['email']
         password = generate_password_hash(details['password'])
-        check_admin = details['check_admin']
+        admin = details['admin']
 
 
         if details["username"]=="":
@@ -46,17 +46,14 @@ class Register(Resource):
             return {"message": "Invalid email or Password"}
 
 
-        '''if not is_valid_username(username):
-            raise_error(400,"Invalid Username")'''
-
         if UsersModel().get_username(username):
             return {"message": "Username Already Exists"}
 
-        '''if UsersModel().get_email(email):
-            return {"message": "Email Already Exists"}'''
+        if UsersModel().get_email(email):
+            return {"message": "Email Already Exists"}
 
         user = UsersModel()
-        user.save(username, email, password, check_admin)
+        user.save(username, email, password, admin)
         return {'message': 'Account created successfully'}, 201
 
 
@@ -66,7 +63,6 @@ class SignIn(Resource):
     def post(self):
         """Sign In a user"""
 
-
         errors = check_login_keys(request)
         if errors:
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
@@ -75,13 +71,10 @@ class SignIn(Resource):
         if type(request.json['username'])not in [str]:
             raise_error(400,"Username should be a string")
 
-
         details = request.get_json()
 
-        
         username = details['username']
         password = details['password']
-
 
         if details["username"]=="":
             raise_error(400,"Username required")
@@ -91,6 +84,8 @@ class SignIn(Resource):
 
         user_1 = UsersModel()
         user = user_1.get_username(username)
+
+
         if user:
             token = create_access_token(identity=username)
             return make_response(jsonify({

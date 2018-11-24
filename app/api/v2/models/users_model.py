@@ -1,31 +1,26 @@
 from app.api.v2.models.database import Database
-from flask_jwt_extended import jwt_required
+from werkzeug.security import generate_password_hash
 
 
 
 class UsersModel(Database): 
 
 	
-	def __init__(self,username=None,email=None,password=None,check_admin=None):
+	def __init__(self,username=None,email=None,password=None,admin=False):
 		super().__init__()
 		self.username = username
 		self.email = email
-		self.password = password
-		self.check_admin = False
+		if password:
+		    self.password = generate_password_hash(password)
+		self.admin = admin
 
 	
-	def save(self,username,email,password,check_admin):
-
-		if check_admin:
-			user_role = 'User'
-		else:
-			user_role = 'Admin'
-
+	def save(self,username,email,password, admin):
 
 		self.curr.execute(
-            ''' INSERT INTO users(username, email, password, check_admin)\
-             VALUES('{}','{}','{}','{}') RETURNING username, email, password, check_admin'''\
-            .format(username,email,password,user_role))
+            ''' INSERT INTO users(username, email, password, admin)\
+             VALUES('{}','{}','{}','{}') RETURNING username, email, password, admin'''\
+            .format(username,email,password,admin))
 
 		create = self.curr.fetchone()
 		self.conn.commit()
