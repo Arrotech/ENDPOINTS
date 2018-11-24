@@ -18,9 +18,7 @@ def parcel_app():
 	"""Create app """
 
 	app = Flask(__name__)
-
 	api = Api(app)
-	
 	jwt = JWTManager(app)
 	app.config["JWT_SECRET_KEY"] = 'thisisarrotech'
 
@@ -33,5 +31,5 @@ def parcel_app():
 	api.add_resource(Register, '/api/v2/auth/signup')
 	api.add_resource(SignIn, '/api/v2/auth/login')
 	app.register_error_handler(404, page_not_found)
-
+	
 	return app

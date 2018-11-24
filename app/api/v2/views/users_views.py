@@ -16,39 +16,30 @@ class Register(Resource):
     def post(self):
         """Create new account."""
 
-
         details = request.get_json()
-        
-        errors = check_register_keys(request)
-        if errors:
-            return raise_error(400,"Invalid {} key".format(', '.join(errors)))
-        if details['username'].isalpha()== False:
-            return {"Status": "username is in wrong format"}
 
         username = details['username']
         email = details['email']
         password = generate_password_hash(details['password'])
         admin = details['admin']
 
-
+        errors = check_register_keys(request)
+        if errors:
+            return raise_error(400,"Invalid {} key".format(', '.join(errors)))
+        if details['username'].isalpha()== False:
+            return {"Status": "username is in wrong format"}
         if details["username"]=="":
             raise_error(400,"Username required")
         if details["email"]=="":
             raise_error(400,"Email required")
         if details["password"]=="":
             raise_error(400,"Password required")
-
-
         if type(request.json['username'])not in [str]:
             return {"message": "Invalid username"}
-
         if not is_valid_email(email):
             return {"message": "Invalid email or Password"}
-
-
         if UsersModel().get_username(username):
             return {"message": "Username Already Exists"}
-
         if UsersModel().get_email(email):
             return {"message": "Email Already Exists"}
 
