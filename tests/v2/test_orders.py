@@ -1,7 +1,7 @@
 import unittest
 from app import parcel_app
 import json
-from utils.dummy import create_order, get_order, user_login, user_register, wrong_key_data, wrong_value_data, wrong_pickup_key, wrong_pickup_value, wrong_destination_key, wrong_destination_value, wrong_value_data
+from utils.dummy import create_order, get_order, user_login, user_register, wrong_key_data, wrong_value_data, wrong_pickup_key, wrong_pickup_value, wrong_destination_key, wrong_destination_value
 
 
 class TestEndpoints(unittest.TestCase):
@@ -87,23 +87,7 @@ class TestEndpoints(unittest.TestCase):
 		result = json.loads(response.data.decode())
 		assert response.status_code == 400
 
-	def test_unexisting_order(self):
-
-		res = self.client.get(
-			"/api/v2/parcels/568", content_type="application/json", headers=self.get_token())
-		self.assertEqual(res.status_code, 404)
-		self.assertEqual(json.loads(res.data)['message'], "Order Not Found")
-
-	def test_invalid_destination(self):
-
-		res = self.client.post(
-			"/api/v2/parcels",
-			data=json.dumps(wrong_value_data), content_type="application/json", headers=self.get_token())
-
-		self.assertEqual(res.status_code, 400)
-		self.assertEqual(
-			json.loads(res.data)['message'],
-			"pickup is in wrong format")
+	
 
 
 
