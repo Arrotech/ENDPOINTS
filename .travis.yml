@@ -1,23 +1,28 @@
 language: 
   - python
+  
 python:
   - "3.6"
+  
+branches:
+  only:
+    -develop
+    
+services:
+  - postgresql
 
 install:
   - pip install -r requirements.txt
-  - pip install nose
-  - pip install coverage
+  - pip install pytest
+  - pip install pytest-cov
   - pip install coveralls
+  - pip install psycopg2-binary
   
 before_script:
   - export FLASK_APP='run.py'
   - psql -c 'create database test_orders;' -U postgres
   - export DB_URL='postgresql://postgres@localhost:5432/test_orders'
   - flask create
-
-branches:
-  only:
-    - develop
 
 script:
   - nosetests --with-coverage --cover-package=app

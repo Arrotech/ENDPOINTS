@@ -1,3 +1,4 @@
+
 [![Build Status](https://travis-ci.org/Arrotech/API_ENDPOINTS.svg?branch=develop)](https://travis-ci.org/Arrotech/API_ENDPOINTS) [![Maintainability](https://api.codeclimate.com/v1/badges/c497d0de46c8d2767806/maintainability)](https://codeclimate.com/github/Arrotech/ENDPOINTS/maintainability) [![Coverage Status](https://coveralls.io/repos/github/Arrotech/ENDPOINTS/badge.svg?branch=develop)](https://coveralls.io/github/Arrotech/ENDPOINTS?branch=develop)
 
 
@@ -140,4 +141,5 @@ Finally integrated the app with code climate to check maintainability.
      Brian mambo
 
      Mwangi.
+
 
