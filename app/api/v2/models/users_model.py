@@ -35,7 +35,7 @@ class UsersModel(Database):
 
 
 	def get_username(self, username):
-		self.curr.execute(""" SELECT * FROM users WHERE username='{}'""".format(username))
+		self.curr.execute(""" SELECT * FROM users WHERE username='{}'""".format(username,))
 
 		user = self.curr.fetchone()
 
