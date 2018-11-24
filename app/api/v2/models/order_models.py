@@ -58,7 +58,6 @@ class OrdersModel(Database):
 	def change_destination(self, parcel_id, destination):
 		"""User can Change destination."""
 
-
 		self.curr.execute("""UPDATE orders\
 			SET destination='{}'\
 			WHERE parcel_id={} RETURNING destination, pickup"""\
@@ -66,7 +65,6 @@ class OrdersModel(Database):
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
-
 		return orders
 
 
@@ -81,7 +79,6 @@ class OrdersModel(Database):
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
-
 		return orders
 
 

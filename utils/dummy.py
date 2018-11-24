@@ -40,7 +40,6 @@ wrong_value_data = {
 "order_status": "Delivered"
 }
 
-
 get_order = {
 "sender_name": "jkuat",
 "recipient": "mambo",
