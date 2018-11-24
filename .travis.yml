@@ -4,6 +4,10 @@ language:
 python:
   - "3.6"
   
+branches:
+  only:
+    -develop
+    
 services:
   - postgresql
 
@@ -20,10 +24,6 @@ before_script:
   - export DB_URL='postgresql://postgres@localhost:5432/test_orders'
   - flask create
   
-branches:
-  only:
-    -develop
-
 script:
   - nosetests --with-coverage --cover-package=app
   - coveralls
