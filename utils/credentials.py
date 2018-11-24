@@ -77,7 +77,7 @@ def valid_email(email):
 
 def is_valid_email(variable):
    """Check if email is a valid mail."""
-   if re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
+   if re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$)",
                variable):
        return True
    return False
@@ -96,5 +96,4 @@ def is_valid_username(variable):
    if re.match(r'[A-Za-z$]', variable):
        return True
    return False
-
 
