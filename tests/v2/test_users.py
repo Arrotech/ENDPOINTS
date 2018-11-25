@@ -39,12 +39,7 @@ class TestUsers(unittest.TestCase):
 		assert response.status_code == 200
 
 
-	def test_unexisting_order(self):
-
-		res = self.client.get(
-			"/api/v2/parcels/568", content_type="application/json", headers=self.get_token())
-		self.assertEqual(res.status_code, 404)
-		self.assertEqual(json.loads(res.data)['message'], "Order Not Found")
+	
 
 	def test_invalid_name(self):
 
@@ -67,6 +62,13 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(
 			json.loads(res.data)['message'], "pickup is in wrong format")
 
+	def test_unexisting_order(self):
+
+		res = self.client.get(
+			"/api/v2/parcels/568", content_type="application/json", headers=self.get_token())
+		self.assertEqual(res.status_code, 404)
+		self.assertEqual(json.loads(res.data)['message'], "Order Not Found")
+
 	def test_invalid_destination(self):
 
 		res = self.client.post(
@@ -77,6 +79,8 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(
 			json.loads(res.data)['message'],
 			"pickup is in wrong format")
+
+	
 
 
 
