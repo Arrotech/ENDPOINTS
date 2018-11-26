@@ -40,7 +40,7 @@ class DataParcel(Resource):
             return make_response(jsonify({"message": "username is in wrong format"}),400)
         if details['order_status'].isalpha()== False:
             return make_response(jsonify({"message": "Order status is in wrong format"}),400)
-        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username, order_status)
+        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
         return make_response(jsonify({
                 "message" : "Order created successfully!"
             }),201)

@@ -17,14 +17,14 @@ class OrdersModel(Database):
 		self.username = username
 		self.order_status = order_status
 		
-	def save(sender_name, recipient, destination, pickup, weight, username, order_status):
+	def save(self, sender_name, recipient, destination, pickup, weight, username):
 		"""Create a new orders."""
 
-		print(sender_name, recipient, destination, pickup, weight, username, order_status)
+		print(sender_name, recipient, destination, pickup, weight, username)
 		self.curr.execute(
-			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username,order_status)\
+			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username)\
 			VALUES('{}','{}','{}','{}','{}','{}') RETURNING sender_name, recipient, destination, pickup, weight, username, order_status'''\
-			.format(sender_name, recipient, destination, pickup, weight, username, order_status))
+			.format(sender_name, recipient, destination, pickup, weight, username))
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
