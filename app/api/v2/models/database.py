@@ -3,6 +3,8 @@ import os
 from psycopg2.extras import RealDictCursor
 
 class Database:
+    """Initialization."""
+
     def __init__(self):
     	self.db_name = os.getenv('DB_NAME')
     	self.db_host = os.getenv('DB_HOST')
@@ -12,6 +14,7 @@ class Database:
     	self.curr = self.conn.cursor(cursor_factory=RealDictCursor)
 
     def create_table(self):
+        """Create tables."""
 
         queries = [
         	"""
@@ -31,15 +34,20 @@ class Database:
 				pickup varchar NOT NULL,
 				weight numeric NOT NULL,
 				username varchar NOT NULL,
-                order_status varchar NOT NULL
+                order_status varchar NOT NULL DEFAULT 'Intransit'
 			)"""
         ]
-        for query in queries:
-        	self.curr.execute(query)
-        self.conn.commit()
-        self.curr.close()
+        try:
+            for query in queries:
+            	self.curr.execute(query)
+            self.conn.commit()
+            self.curr.close()
+        except Exception as e:
+            return e
 
     def destroy_table(self):
+        """Destroy tables"""
+
         orders = "DROP TABLE IF EXISTS  orders CASCADE"
         users = "DROP TABLE IF EXISTS  users CASCADE"
         queries = [orders,users]

@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required
 Database().create_table()
 
 class OrdersModel(Database):
+	"""Initiallization."""
 
 	def __init__(self,sender_name=None,recipient=None,destination=None,pickup=None,weight=None,username=None, order_status=None):
 		super().__init__()
@@ -16,21 +17,19 @@ class OrdersModel(Database):
 		self.username = username
 		self.order_status = order_status
 		
-	@jwt_required
-	def save(self, sender_name, recipient, destination, pickup, weight, username, order_status):
+	def save(sender_name, recipient, destination, pickup, weight, username, order_status):
 		"""Create a new orders."""
 
 		print(sender_name, recipient, destination, pickup, weight, username, order_status)
 		self.curr.execute(
-			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username)\
-			VALUES('{}','{}','{}','{}','{}','{}') RETURNING sender_name, recipient, destination, pickup, username'''\
+			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username,order_status)\
+			VALUES('{}','{}','{}','{}','{}','{}') RETURNING sender_name, recipient, destination, pickup, weight, username, order_status'''\
 			.format(sender_name, recipient, destination, pickup, weight, username, order_status))
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
 		return orders
 		
-	@jwt_required
 	def get_all_parcels(self):
 		"""Fetch all orders"""
 
@@ -40,7 +39,6 @@ class OrdersModel(Database):
 		self.curr.close()
 		return json.dumps(orders, default=str)
 
-	@jwt_required
 	def get_parcel_by_id(self, parcel_id):
 		"""Fetch a single order"""
 
@@ -50,7 +48,6 @@ class OrdersModel(Database):
 		self.curr.close()
 		return json.dumps(order, default=str)
 
-	@jwt_required
 	def change_destination(self, parcel_id, destination):
 		"""User can Change destination."""
 
@@ -63,7 +60,6 @@ class OrdersModel(Database):
 		self.curr.close()
 		return orders
 
-	@jwt_required
 	def change_present_location(self, parcel_id, pickup):
 		"""Admin can Change present location"""
 
@@ -76,7 +72,6 @@ class OrdersModel(Database):
 		self.curr.close()
 		return orders
 
-	@jwt_required
 	def change_status(self, parcel_id, order_status):
 		"""Change order status"""
 

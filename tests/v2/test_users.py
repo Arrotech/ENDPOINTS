@@ -1,5 +1,6 @@
 import unittest
 import json
+import os
 from app import parcel_app
 from utils.dummy import user_register, user_login, wrong_key_data, wrong_value_data
 
@@ -7,7 +8,7 @@ from utils.dummy import user_register, user_login, wrong_key_data, wrong_value_d
 class TestUsers(unittest.TestCase):
 
 	def setUp(self):
-		self.app = parcel_app()
+		self.app = parcel_app(config_name="testing")
 		self.client = self.app.test_client()
 		self.app_context = self.app.app_context()
 		self.app_context.push()
