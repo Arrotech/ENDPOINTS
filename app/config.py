@@ -9,12 +9,12 @@ class Config():
     SECRET_KEY = os.getenv('SECRET_KEY')
 
 class DevelopmentConfig(Config):
-    """Enable our debug mode to True in development in order to auto restart our server on code changes"""
+    """Allow debug to restart after changes."""
     DEBUG = True
     DATA_BASE_URL=os.getenv("DATABASE_URL")
 
 class TestingConfig(Config):
-    """Testing app configurations"""
+    """Testing the application."""
     TESTING = True
     DEBUG = True
     DATABASE_URL=os.getenv("TEST_DATABASE_URL")

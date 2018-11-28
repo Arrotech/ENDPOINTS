@@ -2,8 +2,8 @@ from app import parcel_app
 import os
 from app.api.v2.models.database import Database
 
-#config_name = os.getenv('APP_SETTINGS') # config_name = "development"
-#app = parcel_app(config_name)
+config_name = os.getenv('APP_SETTINGS') # config_name = "development"
+app = parcel_app(config_name)
 
 @app.cli.command()
 def create():

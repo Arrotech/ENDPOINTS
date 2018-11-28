@@ -5,9 +5,49 @@ user_register = {
 "admin": "False"
 }
 
+email_exists = {
+"email": "janie@gmail.com",
+"password": "janiedoe20930988",
+"username": "janiedoe",
+"admin": "False"
+}
+
+username_exists = {
+"email": "janiedoe@gmail.com",
+"password": "johndoe20930988",
+"username": "janie",
+"admin": "False"
+}
+
 user_login = {
 "password": "20930988",
 "username": "janie"
+}
+
+login_unexisting_user = {
+"password": "george20930988",
+"username": "george"
+}
+
+new_user = {
+"email": "pmc@gmail.com",
+"password": "pmc20930988",
+"username": "mary",
+"admin": "False"
+}
+
+invalid_password = {
+"email": "javan@gmail.com",
+"password": "",
+"username": "javan",
+"admin": "False"
+}
+
+invalid_email = {
+"email": "enosgmail.com",
+"password": "20930988!",
+"username": "enos",
+"admin": "False"
 }
 
 create_order = {
