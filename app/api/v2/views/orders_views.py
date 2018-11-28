@@ -7,8 +7,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 class DataParcel(Resource):
     """Creates a new order."""
+
     @jwt_required
     def post(self):
+
 
         details = request.get_json()
 
@@ -38,8 +40,7 @@ class DataParcel(Resource):
             return make_response(jsonify({"message": "username is in wrong format"}),400)
         if details['order_status'].isalpha()== False:
             return make_response(jsonify({"message": "Order status is in wrong format"}),400)
-
-        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username, order_status)
+        res = OrdersModel().save(sender_name, recipient, destination, pickup, weight, username)
         return make_response(jsonify({
                 "message" : "Order created successfully!"
             }),201)
@@ -47,6 +48,7 @@ class DataParcel(Resource):
 
 class GetParcels(Resource):
     """Fetch all orders."""
+
     @jwt_required
     def get(self):
         empty_list = {}
@@ -87,7 +89,6 @@ class Destination(Resource):
 
         details = request.get_json()
         destination = details['destination']
-
         errors = check_order_keys(request)
         if errors:
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
@@ -128,16 +129,12 @@ class ChangeStatus(Resource):
         """Change status."""
         
         details = request.get_json()
-
         errors = check_order_keys(request)
         if errors:
             return raise_error(400,"Invalid {} key".format(', '.join(errors)))
-
         if details['order_status'].isalpha()== False:
             return make_response(jsonify({"message": "order_status is in wrong format"}),400)
-
         order_status = details['order_status']
-
         order = OrdersModel().change_status(order_status,parcel_id)
         if order:
             return jsonify({

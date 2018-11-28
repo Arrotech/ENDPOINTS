@@ -1,16 +1,21 @@
 import unittest
 from app import parcel_app
 import json
-from utils.dummy import user_login, user_register, wrong_key_data, wrong_value_data, wrong_pickup_key, wrong_pickup_value, wrong_destination_key, wrong_destination_value
+import os
+from utils.dummy import create_order, get_order, user_login, user_register, wrong_key_data, wrong_value_data, wrong_pickup_key, wrong_pickup_value, wrong_destination_key, wrong_destination_value
 
 
 class TestEndpoints(unittest.TestCase):
 
 	def setUp(self):
-		self.app = parcel_app()
+		self.app = parcel_app(config_name="testing")
 		self.client = self.app.test_client()
 		self.app_context = self.app.app_context()
 		self.app_context.push()
+
+	def tearDown(self):
+
+		self.app_context.pop()
 
 
 	def get_token(self):
@@ -23,7 +28,7 @@ class TestEndpoints(unittest.TestCase):
 		auth_header = {'Authorization': 'Bearer {}'.format(access_token)}
 		return auth_header
 
-	'''def test_create_order(self):
+	def test_create_order(self):
 		response = self.client.post(
 			'/api/v2/parcels', data=json.dumps(create_order), content_type='application/json', headers=self.get_token())
 		result = json.loads(response.data.decode())
@@ -36,7 +41,7 @@ class TestEndpoints(unittest.TestCase):
 		result = json.loads(response.data.decode())
 		self.assertEqual(result['message'],
            'success', msg="Not allowed")
-		assert response.status_code == 200'''
+		assert response.status_code == 200
 
 	def test_all_orders(self):
 		response = self.client.get(

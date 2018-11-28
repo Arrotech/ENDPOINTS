@@ -19,15 +19,6 @@ def check_order_keys(request):
             errors.append(key)
     return errors
 
-def check_login_keys(request):
-
-    res_keys = ['username', 'password']
-    errors = []
-    for key in res_keys:
-        if not key in request.json:
-            errors.append(key)
-    return errors
-
 def raise_error(status, msg):
         return make_response(jsonify({
                 "status": "error",
@@ -40,16 +31,13 @@ def is_valid_email(variable):
                variable):
        return True
    return False
-def is_valid_numbers(variable):
-   """Check if input has valid numbers."""
-   if re.match(r'[0-9$]', variable):
-       return True
-   return False
+
 def is_valid_password(variable):
    """Check if password is a valid password."""
    if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', variable):
        return True
    return False
+
 def is_valid_username(variable):
    """Check if username is a valid username."""
    if re.match(r'[A-Za-z$]', variable):
