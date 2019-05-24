@@ -11,6 +11,8 @@ branches:
 services:
   - postgresql
 
+
+
 install:
   - pip install -r requirements.txt
   - pip install pytest

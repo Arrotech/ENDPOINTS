@@ -23,7 +23,7 @@ class Database:
 				username varchar NOT NULL,
 				email varchar NOT NULL,
 				password varchar NOT NULL,
-                admin varchar NOT NULL
+                admin boolean NOT NULL
 			)""",
 			"""
 			CREATE TABLE IF NOT EXISTS orders(
@@ -34,7 +34,7 @@ class Database:
 				pickup varchar NOT NULL,
 				weight numeric NOT NULL,
 				username varchar NOT NULL,
-                order_status varchar NOT NULL DEFAULT 'Intransit'
+                order_status varchar NOT NULL
 			)"""
         ]
         try:

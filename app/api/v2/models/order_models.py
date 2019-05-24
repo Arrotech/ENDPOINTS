@@ -7,7 +7,7 @@ Database().create_table()
 class OrdersModel(Database):
 	"""Initiallization."""
 
-	def __init__(self,sender_name=None,recipient=None,destination=None,pickup=None,weight=None,username=None, order_status=None):
+	def __init__(self,sender_name=None,recipient=None,destination=None,pickup=None,weight=None,username=None, order_status="Pending"):
 		super().__init__()
 		self.sender_name = sender_name
 		self.recipient = recipient
@@ -16,20 +16,21 @@ class OrdersModel(Database):
 		self.weight = weight
 		self.username = username
 		self.order_status = order_status
-		
-	def save(self, sender_name, recipient, destination, pickup, weight, username):
+
+	def save(self, sender_name, recipient, destination, pickup, weight, username, order_status):
 		"""Create a new orders."""
 
 		print(sender_name, recipient, destination, pickup, weight, username)
 		self.curr.execute(
-			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username)\
-			VALUES('{}','{}','{}','{}','{}','{}') RETURNING sender_name, recipient, destination, pickup, weight, username, order_status'''\
-			.format(sender_name, recipient, destination, pickup, weight, username))
+			''' INSERT INTO orders(sender_name,recipient,destination,pickup,weight,username,order_status)\
+			VALUES('{}','{}','{}','{}','{}','{}','{}')\
+			 RETURNING sender_name, recipient, destination, pickup, weight, username, order_status'''\
+			.format(sender_name, recipient, destination, pickup, weight, username, order_status))
 		orders = self.curr.fetchone()
 		self.conn.commit()
 		self.curr.close()
 		return orders
-		
+
 	def get_all_parcels(self):
 		"""Fetch all orders"""
 
@@ -83,5 +84,3 @@ class OrdersModel(Database):
 		self.conn.commit()
 		self.curr.close()
 		return orders
-
-	
