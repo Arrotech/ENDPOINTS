@@ -19,7 +19,35 @@ def check_order_keys(request):
             errors.append(key)
     return errors
 
+def check_destination_keys(request):
+
+    res_keys = ['destination']
+    errors = []
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+    return errors
+
+def check_pickup_keys(request):
+
+    res_keys = ['pickup']
+    errors = []
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+    return errors
+
+def check_order_status_keys(request):
+
+    res_keys = ['order_status']
+    errors = []
+    for key in res_keys:
+        if not key in request.json:
+            errors.append(key)
+    return errors
+
 def raise_error(status, msg):
+
         return make_response(jsonify({
                 "status": "error",
                 "message": msg
@@ -43,4 +71,3 @@ def is_valid_username(variable):
    if re.match(r'[A-Za-z$]', variable):
        return True
    return False
-

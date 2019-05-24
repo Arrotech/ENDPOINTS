@@ -1,10 +1,12 @@
 from app.api.v2.models.database import Database
 from werkzeug.security import generate_password_hash
+import json
+
 
 class UsersModel(Database):
 	"""Initialization."""
 
-	def __init__(self,username=None,email=None,password=None,admin=False):
+	def __init__(self,username=None,email=None,password=None,admin=None):
 
 		super().__init__()
 		self.username = username
@@ -25,11 +27,21 @@ class UsersModel(Database):
 		self.curr.close()
 		return create
 
+	def get_users(self):
+		"""Fetch all users"""
+
+		self.curr.execute(''' SELECT * FROM users''')
+		users = self.curr.fetchall()
+		self.conn.commit()
+		self.curr.close()
+		return json.dumps(users, default=str)
+
 	def get_username(self, username):
 		"""Get user with specific username"""
 
 		self.curr.execute(""" SELECT * FROM users WHERE username='{}'""".format(username,))
 		user = self.curr.fetchone()
+		admin = True
 		self.conn.commit()
 		self.curr.close()
 		return user
@@ -42,5 +54,3 @@ class UsersModel(Database):
 		self.conn.commit()
 		self.curr.close()
 		return user
-
-
