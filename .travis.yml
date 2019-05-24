@@ -4,6 +4,10 @@ language:
 python:
   - "3.6"
   
+branches:
+  only:
+    -develop
+    
 services:
   - postgresql
 
@@ -21,7 +25,8 @@ before_script:
   - flask create
 
 script:
-  - pytest --cov=app
+  - nosetests --with-coverage --cover-package=app
+  - coveralls
 
 after_success:
   - coveralls
