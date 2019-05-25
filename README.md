@@ -9,7 +9,6 @@
 To create a set of API Endpoints that use data databases to store data in memory in place of data structures. These endpoints involve authentification with JWT
 
 
-
 **GETTING STARTED**
 
 
