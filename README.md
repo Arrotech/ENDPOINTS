@@ -1,6 +1,6 @@
 
 
-[![Build Status](https://travis-ci.org/Arrotech/API_ENDPOINTS.svg?branch=develop)](https://travis-ci.org/Arrotech/API_ENDPOINTS) [![Maintainability](https://api.codeclimate.com/v1/badges/c497d0de46c8d2767806/maintainability)](https://codeclimate.com/github/Arrotech/ENDPOINTS/maintainability) [![Coverage Status](https://coveralls.io/repos/github/Arrotech/ENDPOINTS/badge.svg?branch=develop)](https://coveralls.io/github/Arrotech/ENDPOINTS?branch=develop)
+[![Build Status](https://travis-ci.org/Arrotech/ENDPOINTS.svg?branch=develop)](https://travis-ci.org/Arrotech/ENDPOINTS) [![Maintainability](https://api.codeclimate.com/v1/badges/c497d0de46c8d2767806/maintainability)](https://codeclimate.com/github/Arrotech/ENDPOINTS/maintainability) [![Coverage Status](https://coveralls.io/repos/github/Arrotech/ENDPOINTS/badge.svg?branch=develop)](https://coveralls.io/github/Arrotech/ENDPOINTS?branch=develop) [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 
 
 
@@ -29,12 +29,12 @@ Users can Sign Up to their account. This is to allow users to create a new accou
     [POST]: http://localhost:5000/api/v2/auth/signup
 
 
-Users can login to their account and fetch all the deliery orders they make. This similarly can be tested with postman by passing the URL 
+Users can login to their account and fetch all the deliery orders they make. This similarly can be tested with postman by passing the URL
 
     [POST]: http://localhost:5000/api/v2/auth/login
 
 
-Users can get a speific order with provision of the order id and change the destination of that order. Test with postman. 
+Users can get a speific order with provision of the order id and change the destination of that order. Test with postman.
 
     [PUT]: http://localhost:5000/api/v2/parcels/parcel_id/destination
 
@@ -64,7 +64,7 @@ Admin users can change the status of orders to either delivered upon delivery. T
     Install virtualenv.
 
     Install Postman
-    
+
     Install nose
 
     Install dotenv
@@ -73,13 +73,13 @@ Admin users can change the status of orders to either delivered upon delivery. T
 
     Install psycopg2-binary
 
-    Create a Procfile 
+    Create a Procfile
 
     Create a .travis.yml file
 
     Install JWT extended
-    
-    
+
+
 .
 
 **Delevoloping Environment**
@@ -102,12 +102,12 @@ All the other necesseties of the connection are documented and found in the repo
 
 
 Then install all the requirements int the environment.
-After installing all the requirements create a dotenv file and add the following run the server on the file by typing 
+After installing all the requirements create a dotenv file and add the following run the server on the file by typing
 
     export FLASK_DEBUG=true
-    
+
     export FLASK_APP=run.py
-    
+
     export DB_NAME="postgres"
 
     export DB_USER="postgres"
@@ -116,9 +116,9 @@ After installing all the requirements create a dotenv file and add the following
 
     export DB_PASSWORD="postgres"
 
-    export SECRET_KEY="thisisarrotech" 
+    export SECRET_KEY="thisisarrotech"
 
-    
+
 Start Postman app. To test the endpoints use all the links provided above for each case.
 
 Then the app is hosted on heroku as sendit-endpoints. The links from heroku are pasted on postman to create a onnection between the two.
@@ -142,6 +142,3 @@ Finally integrated the app with code climate to check maintainability.
      Brian mambo
 
      Mwangi.
-
-
-
